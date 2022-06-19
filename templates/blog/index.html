@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load blog_extras %}
-
 {% block content %}
 <h2>Blog Posts</h2>
 
@@ -9,18 +8,20 @@
 <!-- <div class="alert alert-warning" role="alert">A simple warning alert-checkd it out!</div> -->
 
 {% for post in posts %}
-  <div class="row">
-    <div class="col">
+  <!-- <div class="row"> -->
+    {% row "border-bottom" %}
+    {% col %}
         <h3>{{ post.title }}</h3>      
-        <small>By {{ post.author | author_details:request.user }} on {{ post.published_at|date:"M, d Y" }}</small>
+        {% include "blog/post-byline.html" %}         
         <p>{{ post.summary }}</p>
         <p> 
           {{ post.content|wordcount}} words 
-          <a href="#">Read More</a>
+          <a href="{% url "blog-post-detail" post.slug %}">Read More</a>
         </p>
-    </div>
-  </div>
+    {% endcol %}
+  {% endrow %}
 {% endfor %}
+{% endblock %}
 
 <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-6 bg-primary">Column 1</div>
@@ -66,4 +67,3 @@
         <a class="page-link" href="#">Next</a>
     </li>
 </ul>
-{% endblock %}
