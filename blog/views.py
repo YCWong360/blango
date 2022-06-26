@@ -17,9 +17,12 @@ def index(request):
   logger.info("Index function is called.")
   logger.info(f"User {str(request.user)} sending request to retrieve index page.")
   # return HttpResponse(str(request.user).encode("ascii"))
-  posts = Post.objects.filter(published_at__lte=timezone.now())
+  posts = Post.objects.filter(published_at__lte=timezone.now()).select_related("author").defer("created_at", "modified_at")#.order_by("-published_at")
   logger.info('Got %d posts', len(posts))
   return render(request, "blog/index.html", {"posts": posts})
+
+def get_ip(request):
+  return HttpResponse(request.META["REMOTE_ADDR"])
 
 def post_detail(request, slug):
   post = get_object_or_404(Post, slug=slug)
