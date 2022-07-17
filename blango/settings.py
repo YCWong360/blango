@@ -215,9 +215,18 @@ class Dev(Configuration):
   # Default primary key field type
   # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
+	SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Token": {"type": "apiKey", "name": "Authorization", "in": "header"},
+        "Basic": {"type": "basic"},
+    }
+  }
+
 	DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 	CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 	CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+  
 
 class Prod(Dev):
 	DEBUG = values.BooleanValue(False)
